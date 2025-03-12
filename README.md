@@ -1,2 +1,1 @@
-TanMan Consulting
-will go live soon
+rideverse will go live soon
