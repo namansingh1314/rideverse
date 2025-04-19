@@ -78,9 +78,9 @@ export const FOOTER_CONTACT_INFO = {
 export const SOCIALS = {
   title: 'Social',
   links: [
-    '/facebook.svg',
-    '/instagram.svg',
-    '/twitter.svg',
-    '/youtube.svg',
+    { icon: '/facebook.svg', href: 'https://www.facebook.com/rideverse' },
+    { icon: '/instagram.svg', href: 'https://www.instagram.com/rideverse.in/' },
+    { icon: '/twitter.svg', href: 'https://www.twitter.com/rideverse' },
+    { icon: '/youtube.svg', href: 'https://www.youtube.com/rideverse' },
   ],
 };

@@ -20,12 +20,11 @@ const Features = () => {
         <div className="z-20 flex w-full flex-col lg:w-[60%]">
           <div className="relative">
             <Image
-              src="/car.svg"
-              alt="car"
-              width={50}
-              height={50}
-              className="absolute left-[-5px] top-[-28px] w-10 lg:w-[50px]"
-            />
+              src="/logo.svg"
+              alt="logo"
+              width={100}
+              height={1150}
+                         />
             <h2 className="bold-40 lg:bold-64">Our Features</h2>
           </div>
           <ul className="mt-10 grid gap-10 md:grid-cols-2 lg:mt-20 lg:gap-20">
