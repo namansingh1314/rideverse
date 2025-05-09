@@ -14,18 +14,23 @@ const Navbar = () => {
 
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "auto";
-
-    const handleScroll = (e) => {
-      const target = e.currentTarget.getAttribute("href");
-      if (target?.startsWith("#")) {
-        e.preventDefault();
-        const element = document.getElementById(target.substring(1));
+    const handleScroll = (e: Event) => {
+      e.preventDefault();
+      
+      const link = e.currentTarget as HTMLAnchorElement;
+      const href = link.getAttribute("href");
+    
+      if (href && href.startsWith("#")) {
+        const targetId = href.substring(1);
+        const element = document.getElementById(targetId);
+    
         if (element) {
           element.scrollIntoView({ behavior: "smooth" });
           setIsMenuOpen(false);
         }
       }
     };
+    
 
     const links = document.querySelectorAll("nav a[href^='#']");
     links.forEach((link) => link.addEventListener("click", handleScroll));

@@ -21,26 +21,30 @@ export const postType = defineType({
     defineField({
       name: 'author',
       type: 'reference',
-      to: {type: 'author'},
+      options: {
+        to: {type: 'author'},
+      },
     }),
     defineField({
       name: 'mainImage',
       type: 'image',
       options: {
         hotspot: true,
+        fields: [
+          defineField({
+            name: 'alt',
+            type: 'string',
+            title: 'Alternative text',
+          }),
+        ],
       },
-      fields: [
-        defineField({
-          name: 'alt',
-          type: 'string',
-          title: 'Alternative text',
-        })
-      ]
     }),
     defineField({
       name: 'categories',
       type: 'array',
-      of: [defineArrayMember({type: 'reference', to: {type: 'category'}})],
+      options: {
+        of: [defineArrayMember({type: 'reference', to: {type: 'category'}})],
+      },
     }),
     defineField({
       name: 'publishedAt',

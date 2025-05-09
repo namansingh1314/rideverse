@@ -4,19 +4,33 @@ import { TreePalm, Home } from 'lucide-react';
 import Lottie from 'lottie-react';
 import React, { useEffect, useRef, useState } from 'react';
 
-const HailingAnimation = ({ leftPercent, carLeft }: { leftPercent: number; carLeft: number }) => {
+interface HailingAnimationProps {
+  leftPercent: number;
+  carLeft: number;
+}
+
+const HailingAnimation = ({ leftPercent, carLeft }: HailingAnimationProps) => {
   const [animationData, setAnimationData] = useState<any>(null);
-  const avatarLeft = window.innerWidth * (leftPercent / 100);
-  const hide = carLeft >= avatarLeft - 40;
+  const [avatarLeft, setAvatarLeft] = useState<number | null>(null);
 
   useEffect(() => {
+    setAvatarLeft(window.innerWidth * (leftPercent / 100));
+
+    const handleResize = () => {
+      setAvatarLeft(window.innerWidth * (leftPercent / 100));
+    };
+
+    window.addEventListener('resize', handleResize);
+
     fetch('https://lottie.host/516a2ec7-e0ee-46e7-81f2-3fc8787fa8de/5hdVdKxvGl.json')
       .then((res) => res.json())
       .then(setAnimationData)
       .catch((err) => console.error('Failed to load Lottie JSON', err));
-  }, []);
 
-  if (!animationData || hide) return null;
+    return () => window.removeEventListener('resize', handleResize);
+  }, [leftPercent]);
+
+  if (!animationData || avatarLeft === null || carLeft >= avatarLeft - 40) return null;
 
   return (
     <div
@@ -28,19 +42,26 @@ const HailingAnimation = ({ leftPercent, carLeft }: { leftPercent: number; carLe
   );
 };
 
-const Avatar = ({
-  color,
-  leftPercent,
-  carLeft,
-}: {
+interface AvatarProps {
   color: string;
   leftPercent: number;
   carLeft: number;
-}) => {
-  const avatarLeft = window.innerWidth * (leftPercent / 100);
-  const hide = carLeft >= avatarLeft - 40;
+}
 
-  if (hide) return null;
+const Avatar = ({ color, leftPercent, carLeft }: AvatarProps) => {
+  const [avatarLeft, setAvatarLeft] = useState<number | null>(null);
+
+  useEffect(() => {
+    const updatePosition = () => {
+      setAvatarLeft(window.innerWidth * (leftPercent / 100));
+    };
+
+    updatePosition();
+    window.addEventListener('resize', updatePosition);
+    return () => window.removeEventListener('resize', updatePosition);
+  }, [leftPercent]);
+
+  if (avatarLeft === null || carLeft >= avatarLeft - 40) return null;
 
   return (
     <div
@@ -68,14 +89,14 @@ const SideCar = () => (
     fill="currentColor"
     className="text-black drop-shadow-md"
   >
-    <path d="M544 192h-16L482.7 94.6A64 64 0 0 0 422.1 64H217.9a64 64 0 0 0-60.6 30.6L112 192H96a96 96 0 0 0-96 96v96a32 32 0 0 0 32 32h48a80 80 0 0 0 160 0h160a80 80 0 0 0 160 0h48a32 32 0 0 0 32-32v-96a96 96 0 0 0-96-96zM128 432a48 48 0 1 1 48-48 48 48 0 0 1-48 48zm368 0a48 48 0 1 1 48-48 48 48 0 0 1-48 48z" />
+    {/* Add path elements for the car SVG */}
+    <path d="M544 192h-16L419.22 56.02A64.025 64.025 0 0 0 369.24 32H155.33c-26.17 0-49.7 15.93-59.42 40.23L48 194.26C20.44 201.4 0 226.21 0 256v112c0 8.84 7.16 16 16 16h48c0 53.02 42.98 96 96 96s96-42.98 96-96h128c0 53.02 42.98 96 96 96s96-42.98 96-96h48c8.84 0 16-7.16 16-16v-80c0-53.02-42.98-96-96-96zM160 432c-26.47 0-48-21.53-48-48s21.53-48 48-48 48 21.53 48 48-21.53 48-48 48zm72-240H116.93l38.4-96H232v96zm48 0V96h89.24l76.8 96H280zm200 240c-26.47 0-48-21.53-48-48s21.53-48 48-48 48 21.53 48 48-21.53 48-48 48z" />
   </svg>
 );
 
-
 const CarAnimation = () => {
-  const carRef = useRef<HTMLDivElement>(null);
-  const [carLeft, setCarLeft] = useState(0);
+  const carRef = useRef<HTMLDivElement | null>(null);
+  const [carLeft, setCarLeft] = useState<number>(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -90,11 +111,8 @@ const CarAnimation = () => {
 
   return (
     <div className="hidden sm:block relative w-full h-[250px] md:h-[300px] bg-gradient-to-b from-sky-100 to-sky-300 overflow-hidden rounded-xl shadow-2xl">
-
-      {/* Clouds */}
       <div className="absolute top-1 left-0 w-full h-8 bg-white opacity-20 animate-clouds" />
 
-      {/* Trees & Houses */}
       <div className="absolute bottom-[80px] w-full flex justify-around px-6 text-green-600">
         <TreePalm size={50} />
         <Home size={50} className="text-orange-400" />
@@ -102,20 +120,14 @@ const CarAnimation = () => {
         <Home size={50} className="text-orange-400" />
       </div>
 
-      {/* Road */}
       <div className="absolute bottom-0 w-full h-16 bg-slate-800">
         <div className="absolute top-1/2 left-0 w-full h-1 bg-yellow-400 animate-road-line" />
       </div>
 
-      {/* Car */}
-      <div
-        ref={carRef}
-        className="absolute bottom-[70px] left-0 animate-car-bounce transition-all duration-200"
-      >
+      <div ref={carRef} className="absolute bottom-[70px] left-0 animate-car-bounce transition-all duration-200">
         <SideCar />
       </div>
 
-      {/* People */}
       <Avatar color="sky-600" leftPercent={20} carLeft={carLeft} />
       <HailingAnimation leftPercent={30} carLeft={carLeft} />
       <Avatar color="emerald-500" leftPercent={50} carLeft={carLeft} />
