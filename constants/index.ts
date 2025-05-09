@@ -1,6 +1,6 @@
 // NAVIGATION
 export const NAV_LINKS = [
-  { key: "hero", label: "Home", href: "#" },
+  { key: "hero", label: "Home", href: "/" },
   { key: "camp", label: "Why Us?", href: "#camp" },
   { key: "guide", label: "Guide", href: "#guide" },
   { key: "features", label: "Features", href: "#features" },
@@ -16,37 +16,37 @@ export const PEOPLE_URL = [
   '/person-4.png',
 ];
 
-// FEATURES SECTION
 export const FEATURES = [
   {
-    title: 'Ride Anywhere, Anytime',
+    title: 'Ride Pool',
     icon: '/map.svg',
     variant: 'green',
-    description:
-      'With RideVerse, you can book a ride to any location at any time. Our real-time tracking and navigation ensure a smooth journey.',
+    description: 'Cheaper option for sharing rides with optimal pricing and reduced carbon emissions.',
+    moreInfo: 'Ride Pool enables shared journeys that are cost-effective and eco-friendly. With self-routing, we ensure efficient paths for all passengers.'
   },
   {
-    title: 'Schedule Your Rides',
+    title: 'Subscription',
     icon: '/calendar.svg',
     variant: 'green',
-    description:
-      "Plan ahead by scheduling your rides in advance. Whether it's for work, travel, or a night out, RideVerse has got you covered.",
+    description: 'No daily hassle—get cheaper, easier travel options with rider and driver verification.',
+    moreInfo: 'Our subscription model offers peace of mind with verified participants and a consistent, reliable ride experience—perfect for daily commutes.'
   },
   {
-    title: 'Smart Fare Estimation',
+    title: 'Regulated Fares',
     icon: '/tech.svg',
     variant: 'green',
-    description:
-      'Know your fare before you ride! Our AI-powered fare estimation provides transparency and helps you budget your trips better.',
+    description: 'Meter-based pricing aligned with RTO rates. No surge pricing or hidden charges.',
+    moreInfo: 'Enjoy complete transparency and fair compensation with regulated fares. Know exactly what you’re paying—always.'
   },
   {
-    title: 'Expanding Coverage',
+    title: 'Safety',
     icon: '/location.svg',
     variant: 'orange',
-    description:
-      'RideVerse is growing! We are constantly adding new cities and regions, bringing reliable ride-sharing to more people every month.',
+    description: 'Trusted drivers with KYC, well-maintained vehicles, and 24/7 support.',
+    moreInfo: 'We prioritize safety so much, you won’t even need emergency support. Our trusted ecosystem keeps your ride secure at all times.'
   },
 ];
+
 
 // FOOTER SECTION
 export const FOOTER_LINKS = [
@@ -70,7 +70,7 @@ export const FOOTER_LINKS = [
 export const FOOTER_CONTACT_INFO = {
   title: 'Contact Us',
   links: [
-    { label: 'Customer Support', value: '123-456-7890' },
+    { label: 'Customer Support', value: '+91-8374883-87638' },
     { label: 'Email Support', value: 'support@rideverse.com' },
   ],
 };

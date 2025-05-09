@@ -7,13 +7,13 @@ const Hero = () => {
       <div className="hero-map" />
 
       <div className="relative z-20 flex flex-1 flex-col xl:w-1/2">
-        <Image 
+        {/* <Image 
           src="/logo.svg"
           alt="logo"
           width={110}
           height={1150}
          
-        />
+        /> */}
         <h1 className="text-4xl font-bold md:text-5xl lg:text-7xl">RideVerse</h1>
         <p className="mt-4 text-sm md:text-base text-gray-30 md:mt-6 xl:max-w-[520px]">
           Your journey, redefined. RideVerse ensures seamless travel with real-time navigation, 
