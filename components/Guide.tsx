@@ -3,11 +3,11 @@ import React from 'react'
 
 const Guide = () => {
   return (
-    <section id='guide' className="flexCenter flex-col">
+    <section id='guide' className="flexCenter flex-col pt-10 ">
       <div className="padding-container max-container w-full pb-12 md:pb-24">
-        <Image src="/logo.svg" alt="camp" width={100} height={1150} />
+        {/* <Image src="/logo.svg" alt="camp" width={100} height={1150} /> */}
         <p className="uppercase regular-18 -mt-1 mb-3 text-gray-900">
-          We are here for you
+          We are here for you  
         </p>
         <div className="flex flex-col md:flex-row flex-wrap justify-between gap-5 lg:gap-10">
           <h2 className="bold-32 md:bold-40 lg:bold-64 xl:max-w-[390px]">Guide You to Easy Path</h2>

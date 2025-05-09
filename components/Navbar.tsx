@@ -3,19 +3,22 @@
 import { NAV_LINKS } from "@/constants";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
 
-  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+  const toggleMenu = () => setIsMenuOpen(prev => !prev);
 
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "auto";
 
-    const handleScroll = (e: Event) => {
-      e.preventDefault();
-      const target = (e.target as HTMLAnchorElement).getAttribute("href");
+    const handleScroll = (e) => {
+      const target = e.currentTarget.getAttribute("href");
       if (target?.startsWith("#")) {
+        e.preventDefault();
         const element = document.getElementById(target.substring(1));
         if (element) {
           element.scrollIntoView({ behavior: "smooth" });
@@ -24,41 +27,47 @@ const Navbar = () => {
       }
     };
 
-    document.querySelectorAll("nav a").forEach((link) => {
-      link.addEventListener("click", handleScroll);
-    });
+    const links = document.querySelectorAll("nav a[href^='#']");
+    links.forEach((link) => link.addEventListener("click", handleScroll));
 
     return () => {
-      document.querySelectorAll("nav a").forEach((link) => {
-        link.removeEventListener("click", handleScroll);
-      });
+      links.forEach((link) => link.removeEventListener("click", handleScroll));
       document.body.style.overflow = "auto";
     };
   }, [isMenuOpen]);
 
   return (
     <nav className="lg:sticky lg:top-0 z-30 py-5 flexBetween max-container padding-container lg:bg-white/10 lg:backdrop-blur-lg lg:border lg:border-white/20 lg:shadow-lg lg:rounded-xl">
-      <a href="/" className="flex items-center">
-      <Image
-  src="/rideverse.png"
-  alt="RideVerse Logo"
-  height={40} // Adjust height to suit your UI
-  width={0}   
-  className="object-contain max-h-12 w-auto"
-/>
-
-      </a>
+      <Link
+        href="/"
+        className="flex items-center"
+        onClick={(e) => {
+          if (pathname === "/") {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
+          setIsMenuOpen(false);
+        }}
+      >
+        <Image
+          src="/rideverse.png"
+          alt="RideVerse Logo"
+          height={40}
+          width={0}
+          className="object-contain max-h-12 w-auto"
+        />
+      </Link>
 
       {/* Desktop Navigation */}
       <ul className="hidden lg:flex h-full gap-12">
         {NAV_LINKS.map((link) => (
           <li key={link.key}>
-            <a
+            <Link
               href={link.href}
               className="regular-16 text-gray-50 flexCenter cursor-pointer pb-1.5 transition-all hover:font-bold"
             >
               {link.label}
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
@@ -71,7 +80,7 @@ const Navbar = () => {
       >
         <span
           className={`block w-7 h-0.5 bg-black rounded-sm absolute transition-all duration-700 ease-in-out ${
-            isMenuOpen ? "rotate-45 translate-y-0" : "translate-y-[-6px]"
+            isMenuOpen ? "rotate-45 translate-y-0" : "-translate-y-1.5"
           }`}
         />
         <span
@@ -81,7 +90,7 @@ const Navbar = () => {
         />
         <span
           className={`block w-7 h-0.5 bg-black rounded-sm absolute transition-all duration-700 ease-in-out ${
-            isMenuOpen ? "-rotate-45 translate-y-0" : "translate-y-[6px]"
+            isMenuOpen ? "-rotate-45 translate-y-0" : "translate-y-1.5"
           }`}
         />
       </button>
@@ -93,15 +102,16 @@ const Navbar = () => {
         }`}
       >
         <div className="flex justify-between items-center p-6">
-        <a href="/" className="flex items-center">
-    <Image
-      src="/rideverse.png"
-      alt="RideVerse Logo"
-      height={40}
-      width={0}
-      className="object-contain w-auto max-h-10"
-    />
-  </a>
+          <Link href="/" className="flex items-center" onClick={() => setIsMenuOpen(false)}>
+            <Image
+              src="/rideverse.png"
+              alt="RideVerse Logo"
+              height={40}
+              width={0}
+              className="object-contain w-auto max-h-10"
+            />
+          </Link>
+
           <button
             className="w-10 h-10 relative flex flex-col justify-center items-center focus:outline-none"
             onClick={toggleMenu}
@@ -116,13 +126,13 @@ const Navbar = () => {
         <ul className="flex flex-col items-center justify-center gap-8 mt-10">
           {NAV_LINKS.map((link) => (
             <li key={link.key}>
-              <a
+              <Link
                 href={link.href}
                 className="text-xl font-medium text-gray-900 hover:text-gray-500"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
