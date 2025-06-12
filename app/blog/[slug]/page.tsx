@@ -18,7 +18,10 @@ interface Post {
   // likes?: number;
 }
 
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  // Await the params
+  const { slug } = await params;
+
   const query = `*[_type == "post" && slug.current == $slug][0] {
     title,
     _createdAt,
@@ -34,7 +37,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     likes
   }`;
 
-  const post: Post = await client.fetch(query, { slug: params.slug });
+  const post: Post = await client.fetch(query, { slug });
 
   if (!post) {
     notFound();

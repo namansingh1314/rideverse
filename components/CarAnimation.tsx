@@ -1,7 +1,11 @@
 'use client';
 
 import { TreePalm, Home } from 'lucide-react';
-import Lottie from 'lottie-react';
+import dynamic from 'next/dynamic';
+
+// Disable SSR for the Lottie component
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
+
 import React, { useEffect, useRef, useState } from 'react';
 
 interface HailingAnimationProps {
